@@ -4,11 +4,16 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # Add this repository to SourcesList
+# I'm going to keep my eye on this... I'm not sure it's needed
 perl -p -i -e 's#http://us.archive.ubuntu.com/ubuntu#http://mirror.rackspace.com/ubuntu#gi' /etc/apt/sources.list
 
 # Update apt-get
 echo "Updating apt-get"
-apt-get -qq update
+
+# I want this to be more verbose... should this be sudo apt-get? (we'll find out later)
+apt-get update
+
+# apt-get -qq update
 
 # Install utilities
 echo "Installing utilities"
