@@ -10,21 +10,11 @@ dreambox_config_file = (defined?(config_file)) ? config_file : 'vm-config.yml'
 Dreambox = Config.new(dreambox_config_file)
 
 Vagrant.configure(2) do |config|
-<<<<<<< HEAD
-# I would rather use ubuntu/trust64 because that appears to be the build that's used on my shared hosting
-  #  config.vm.box = "hashicorp/precise64"
-  config.vm.box = "ubuntu/trusty64"
-# This is deleted because hashicorp recently removed the forwarding... vagrantcloud is the default and it's working just fine.
-  #config.vm.box_url = "https://atlas.hashicorp.com/hashicorp/boxes/precise64"
-=======
+
   config.vm.box = "ubuntu/trusty64"
   config.vm.box_url = "https://vagrantcloud.com/ubuntu/boxes/trusty64"
->>>>>>> 0.3.0-base
 
   config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
-
-# This is to get it to work on my work computer. Totally unsecure, but I can't resolve anything with apt-get if I don't
-  config.vm.network "public_network"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
@@ -50,15 +40,6 @@ Vagrant.configure(2) do |config|
     test.vm.hostname = "dreambox.test"
     test.vm.network :private_network, ip: "192.168.56.78"
 
-<<<<<<< HEAD
-    # Sets up the sync folder
-    test.vm.synced_folder 'web', '/home/db_user/dreambox.com', create = true
-=======
-    config.vm.provider "virtualbox" do |vb|
-      vb.name = "Dreambox"
-    end
->>>>>>> 0.3.0-base
-
     # Start bash as a non-login shell
     test.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
@@ -72,9 +53,6 @@ Vagrant.configure(2) do |config|
 
     test.vm.provision "Apache Setup",
       type: "shell",
-<<<<<<< HEAD
-      path: "scripts/base.sh"
-=======
       path: "provisioners/setup.apache.sh"
 
     test.vm.provision "MySQL Setup",
@@ -106,7 +84,6 @@ Vagrant.configure(2) do |config|
         inline: "/bin/bash /usr/local/dreambox/vhost.sh",
         :env => conf
     end
->>>>>>> 0.3.0-base
 
     test.vm.provision "Start Apache",
       type: "shell",
