@@ -2,4 +2,5 @@
 *.box
 certs
 web
-output-*
+static
+tests/**/*.txt

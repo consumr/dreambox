@@ -10,20 +10,17 @@
       "destination": "/tmp"
     },
     {
-      "type": "file",
-      "source": "{{ pwd }}/packages",
-      "destination": "/tmp"
-    },
-    {
       "type": "shell",
       "scripts": [
-        "{{ pwd }}/scripts/base.sh",
-        "{{ pwd }}/scripts/package-setup.sh",
-        "{{ pwd }}/scripts/virtualbox.sh",
-        "{{ pwd }}/scripts/vmware.sh",
-        "{{ pwd }}/scripts/vagrant.sh",
-        "{{ pwd }}/scripts/cleanup.sh",
-        "{{ pwd }}/scripts/zerodisk.sh"
+        "{{ pwd }}/provisioners/set-files.sh",
+        "{{ pwd }}/provisioners/base.sh",
+        "{{ pwd }}/provisioners/setup.apache.sh",
+        "{{ pwd }}/provisioners/setup.mysql.sh",
+        "{{ pwd }}/provisioners/virtualbox.sh",
+        "{{ pwd }}/provisioners/vmware.sh",
+        "{{ pwd }}/provisioners/vagrant.sh",
+        "{{ pwd }}/provisioners/cleanup.sh",
+        "{{ pwd }}/provisioners/zerodisk.sh"
       ],
       "override": {
         "virtualbox-iso": {
@@ -94,17 +91,31 @@
     }
   ],
   "post-processors": [
-    [{
-      "type": "vagrant",
-      "only": ["virtualbox-iso"],
-      "output": "{{ pwd }}/_builds/dreambox.virtualbox.{{ user `box_version` }}.box",
-      "vagrantfile_template": "{{ pwd }}/templates/Vagrantfile"
-    },
-    {
-      "type": "vagrant",
-      "only": ["vmware-iso"],
-      "output": "{{ pwd }}/_builds/dreambox.vmware.{{ user `box_version` }}.box",
-      "vagrantfile_template": "{{ pwd }}/templates/Vagrantfile"
-    }]
+    [
+      {
+        "type": "vagrant",
+        "only": [
+          "virtualbox-iso"
+        ],
+        "output": "{{ pwd }}/_builds/dreambox.virtualbox.{{ user `box_version` }}.box",
+        "vagrantfile_template": "{{ pwd }}/templates/Vagrantfile",
+        "include": [
+          "{{ pwd }}/templates/class_config.rb",
+          "{{ pwd }}/templates/utilities.rb"
+        ]
+      },
+      {
+        "type": "vagrant",
+        "only": [
+          "vmware-iso"
+        ],
+        "output": "{{ pwd }}/_builds/dreambox.vmware.{{ user `box_version` }}.box",
+        "vagrantfile_template": "{{ pwd }}/templates/Vagrantfile",
+        "include": [
+          "{{ pwd }}/templates/class_config.rb",
+          "{{ pwd }}/templates/utilities.rb"
+        ]
+      }
+    ]
   ]
 }
