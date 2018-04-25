@@ -6,3 +6,5 @@ certs
 tests/**/*.txt
 *.sublime-project
 *.sublime-workspace
+output-virtualbox-iso
+packer_cache
