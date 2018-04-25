@@ -8,3 +8,4 @@ tests/**/*.txt
 *.sublime-workspace
 output-virtualbox-iso
 packer_cache
+.vagrant
